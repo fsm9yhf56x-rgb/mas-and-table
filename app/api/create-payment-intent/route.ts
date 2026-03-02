@@ -4,7 +4,7 @@ import Stripe from "stripe";
 import { Resend } from "resend";
 import { supabaseAdmin } from "@/lib/supabase";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2024-04-10" });
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2026-02-25.clover" });
 const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = "Mas & Table <hello@masandtable.com>";
 
