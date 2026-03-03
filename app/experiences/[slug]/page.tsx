@@ -19,13 +19,10 @@ export async function generateMetadata(
       .eq("slug", slug)
       .eq("is_published", true)
       .single();
-
     if (!data) return {};
-
     const cover = data.images?.find((img: any) => img.is_cover) ?? data.images?.[0];
     const title = `${data.title} — Provence Experience`;
     const description = data.tagline ?? `A curated experience in ${data.zone}, Provence. From €${data.price_from} per person.`;
-
     return {
       title,
       description,
@@ -137,12 +134,12 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
       <Navbar />
       <main className="bg-[#F5F0E8]">
 
-        {/* ── HEADER COMPACT : titre gauche + image droite ── */}
+        {/* ── HEADER ── */}
         <section className="pt-[73px] border-b border-[#2C2C2C]/10">
-          <div className="max-w-7xl mx-auto px-8 md:px-16">
+          <div className="max-w-7xl mx-auto px-6 sm:px-16">
 
             {/* Breadcrumb */}
-            <div className="flex items-center gap-4 pt-10 mb-12">
+            <div className="flex items-center gap-3 pt-8 sm:pt-10 mb-8 sm:mb-12">
               <Link href="/experiences" className="font-sans text-[11px] tracking-[0.5em] uppercase text-[#2C2C2C]/40 hover:text-[#6B7C5C] transition-colors">
                 ← Experiences
               </Link>
@@ -150,28 +147,24 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
               <span className="font-sans text-[11px] tracking-[0.5em] uppercase text-[#6B7C5C]">{categoryLabel}</span>
             </div>
 
-            {/* Titre gauche + image droite */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end pb-14">
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-end pb-10 sm:pb-14">
 
-              <div className="md:col-span-7 space-y-6">
-                <p className="font-sans text-[12px] tracking-[0.5em] uppercase text-[#6B7C5C]">
+              <div className="sm:col-span-7 space-y-4 sm:space-y-6">
+                <p className="font-sans text-[11px] sm:text-[12px] tracking-[0.5em] uppercase text-[#6B7C5C]">
                   {categoryLabel} · {experience.zone}
                 </p>
-                <h1 className="font-serif text-[clamp(2.5rem,5vw,4.5rem)] text-[#2C2C2C] leading-[1.05] tracking-tight">
+                <h1 className="font-serif text-[clamp(2.2rem,7vw,4.5rem)] text-[#2C2C2C] leading-[1.05] tracking-tight">
                   {experience.title}
                 </h1>
-                <p className="font-sans text-xl text-[#2C2C2C]/55 leading-relaxed max-w-xl" style={{ fontWeight: 300 }}>
+                <p className="font-sans text-lg sm:text-xl text-[#2C2C2C]/55 leading-relaxed" style={{ fontWeight: 300 }}>
                   {experience.tagline}
                 </p>
               </div>
 
-              <div className="md:col-span-5 relative overflow-hidden" style={{ height: "320px" }}>
+              {/* Image header — plein largeur mobile, colonne droite desktop */}
+              <div className="sm:col-span-5 relative overflow-hidden" style={{ height: "56vw", maxHeight: "320px", minHeight: "200px" }}>
                 {cover ? (
-                  <img
-                    src={cover.url}
-                    alt={cover.alt || experience.title}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={cover.url} alt={cover.alt || experience.title} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: "#F8F4EE" }}>
                     <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#2C2C2C]/30">No image</p>
@@ -183,15 +176,15 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
           </div>
         </section>
 
-        {/* ── CONTENU + BOOKING STICKY ── */}
-        <div className="max-w-7xl mx-auto px-8 md:px-16 py-16 md:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-16 xl:gap-24">
+        {/* ── CONTENU ── */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-16 py-10 sm:py-24">
+          <div className="grid grid-cols-1 sm:grid-cols-[1fr_380px] gap-10 sm:gap-24">
 
             {/* GAUCHE — storytelling */}
             <div>
 
-              {/* Détails rapides */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12 mb-12 border-b border-[#2C2C2C]/10">
+              {/* Détails rapides — 2 colonnes mobile, 4 desktop */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 pb-10 sm:pb-12 mb-10 sm:mb-12 border-b border-[#2C2C2C]/10">
                 {[
                   { label: "Duration", value: experience.duration },
                   { label: "Group size", value: `${experience.group_min}–${experience.group_max} guests` },
@@ -206,9 +199,9 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
               </div>
 
               {/* Storytelling */}
-              <div className="mb-16">
+              <div className="mb-12 sm:mb-16">
                 {experience.description.split("\n\n").map((para, i) => (
-                  <p key={i} className="font-sans text-xl text-[#2C2C2C]/70 leading-relaxed mb-7" style={{ fontWeight: 300 }}>
+                  <p key={i} className="font-sans text-lg sm:text-xl text-[#2C2C2C]/70 leading-relaxed mb-6 sm:mb-7" style={{ fontWeight: 300 }}>
                     {para}
                   </p>
                 ))}
@@ -216,7 +209,7 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
 
               {/* Photos secondaires */}
               {extraImages.length > 0 && (
-                <div className="grid grid-cols-2 gap-4 mb-16">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-12 sm:mb-16">
                   {extraImages.map((img) => (
                     <div key={img.id} className="relative aspect-[4/3] overflow-hidden">
                       <img src={img.url} alt={img.alt || ""} className="w-full h-full object-cover" />
@@ -227,9 +220,9 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
 
               {/* Ce qui est inclus */}
               {experience.whats_included && (
-                <div className="border-t border-[#2C2C2C]/10 pt-12 mb-16">
-                  <p className="font-sans text-[12px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-6">What&rsquo;s included</p>
-                  <p className="font-sans text-xl text-[#2C2C2C]/70 leading-relaxed" style={{ fontWeight: 300 }}>
+                <div className="border-t border-[#2C2C2C]/10 pt-10 sm:pt-12 mb-12 sm:mb-16">
+                  <p className="font-sans text-[12px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-5 sm:mb-6">What&rsquo;s included</p>
+                  <p className="font-sans text-lg sm:text-xl text-[#2C2C2C]/70 leading-relaxed" style={{ fontWeight: 300 }}>
                     {experience.whats_included}
                   </p>
                 </div>
@@ -237,15 +230,15 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
 
               {/* Hôte */}
               {partner && (
-                <div className="border-t border-[#2C2C2C]/10 pt-12">
-                  <p className="font-sans text-[12px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-8">Your host</p>
-                  <div className="flex gap-6 items-start">
-                    <div className="w-16 h-16 flex-shrink-0 flex items-center justify-center border border-[#2C2C2C]/15" style={{ backgroundColor: "#F8F4EE" }}>
+                <div className="border-t border-[#2C2C2C]/10 pt-10 sm:pt-12">
+                  <p className="font-sans text-[12px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-6 sm:mb-8">Your host</p>
+                  <div className="flex gap-5 sm:gap-6 items-start">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 flex items-center justify-center border border-[#2C2C2C]/15" style={{ backgroundColor: "#F8F4EE" }}>
                       <span className="font-serif text-2xl text-[#2C2C2C]/40">{partner.host_firstname?.[0]}</span>
                     </div>
                     <div>
-                      <p className="font-serif text-2xl text-[#2C2C2C] mb-3">{partner.host_firstname} {partner.host_lastname}</p>
-                      <p className="font-sans text-base text-[#2C2C2C]/60 leading-relaxed mb-4" style={{ fontWeight: 300 }}>{partner.host_bio}</p>
+                      <p className="font-serif text-xl sm:text-2xl text-[#2C2C2C] mb-2 sm:mb-3">{partner.host_firstname} {partner.host_lastname}</p>
+                      <p className="font-sans text-base text-[#2C2C2C]/60 leading-relaxed mb-3 sm:mb-4" style={{ fontWeight: 300 }}>{partner.host_bio}</p>
                       {experience.language_note && (
                         <p className="font-serif text-base italic text-[#2C2C2C]/40">&ldquo;{experience.language_note}&rdquo;</p>
                       )}
@@ -253,11 +246,14 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
                   </div>
                 </div>
               )}
+
             </div>
 
-            {/* DROITE — booking sticky */}
-            <div>
-              <div className="sticky top-28">
+            {/* DROITE — booking
+                Desktop : sticky sidebar
+                Mobile  : affiché APRÈS le contenu (order CSS) */}
+            <div className="sm:block">
+              <div className="sm:sticky sm:top-28">
                 <BookingBlock experience={experience} />
               </div>
             </div>
@@ -268,27 +264,27 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
         {/* ── SIMILAIRES ── */}
         {similar.length > 0 && (
           <section style={{ backgroundColor: "#F8F4EE" }} className="border-t border-[#2C2C2C]/10">
-            <div className="max-w-7xl mx-auto px-8 md:px-16 py-16 md:py-24">
-              <p className="font-sans text-[12px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-4">Continue exploring</p>
-              <h2 className="font-serif text-[clamp(2rem,4.5vw,3.5rem)] text-[#2C2C2C] leading-tight mb-14">You might also love</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#2C2C2C]/10">
+            <div className="max-w-7xl mx-auto px-6 sm:px-16 py-12 sm:py-24">
+              <p className="font-sans text-[12px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-3 sm:mb-4">Continue exploring</p>
+              <h2 className="font-serif text-[clamp(1.8rem,5vw,3.5rem)] text-[#2C2C2C] leading-tight mb-10 sm:mb-14">You might also love</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#2C2C2C]/10">
                 {similar.map((exp) => {
                   const c = exp.images?.find((i: any) => i.is_cover) ?? exp.images?.[0];
                   return (
-                    <Link key={exp.id} href={`/experiences/${exp.slug}`} className="group block md:px-10 first:pl-0 last:pr-0 py-8 md:py-0">
+                    <Link key={exp.id} href={`/experiences/${exp.slug}`} className="group block sm:px-10 first:pl-0 last:pr-0 py-8 sm:py-0">
                       {c && (
-                        <div className="relative aspect-[3/2] overflow-hidden mb-6">
+                        <div className="relative aspect-[3/2] overflow-hidden mb-5 sm:mb-6">
                           <img src={c.url} alt={c.alt || exp.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
                         </div>
                       )}
-                      <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center justify-between mb-2 sm:mb-3">
                         <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#2C2C2C]/40">{exp.zone}</p>
                         <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#6B7C5C]">
                           {exp.category === "une_journee" ? "Une Journée" : exp.category === "un_sejour" ? "Un Séjour" : "Une Saison"}
                         </p>
                       </div>
-                      <h3 className="font-serif text-2xl text-[#2C2C2C] group-hover:text-[#6B7C5C] transition-colors duration-300 leading-snug mb-3">{exp.title}</h3>
-                      <p className="font-sans text-base text-[#2C2C2C]/40" style={{ fontWeight: 300 }}>From {formatPrice(exp.price_from)} per person</p>
+                      <h3 className="font-serif text-xl sm:text-2xl text-[#2C2C2C] group-hover:text-[#6B7C5C] transition-colors duration-300 leading-snug mb-2 sm:mb-3">{exp.title}</h3>
+                      <p className="font-sans text-sm sm:text-base text-[#2C2C2C]/40" style={{ fontWeight: 300 }}>From {formatPrice(exp.price_from)} per person</p>
                     </Link>
                   );
                 })}
