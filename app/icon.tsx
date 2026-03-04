@@ -1,12 +1,14 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "fs/promises";
+import { join } from "path";
 
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
 
 export default async function Icon() {
-  const font = await fetch(
-    "https://fonts.gstatic.com/s/playfairdisplay/v37/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgEM86xRbRQ.woff2"
-  ).then((res) => res.arrayBuffer());
+  const font = await readFile(
+    join(process.cwd(), "public/fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf")
+  );
 
   return new ImageResponse(
     (
@@ -37,14 +39,7 @@ export default async function Icon() {
     ),
     {
       ...size,
-      fonts: [
-        {
-          name: "Playfair Display",
-          data: font,
-          style: "italic",
-          weight: 400,
-        },
-      ],
+      fonts: [{ name: "Playfair Display", data: font, style: "italic", weight: 400 }],
     }
   );
 }
