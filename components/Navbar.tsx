@@ -6,7 +6,7 @@ import Link from "next/link";
 function Logo({ inverted = false }: { inverted?: boolean }) {
   const nameColor = inverted ? "#F5F0E8" : "#2C2C2C";
   const ampColor = "#6B7C5C";
-  const tagColor = inverted ? "rgba(245,240,232,0.38)" : "rgba(44,44,44,0.38)";
+  const tagColor = inverted ? "rgba(245, 240, 232, 0)" : "rgba(44,44,44,0.38)";
   return (
     <Link href="/" className="flex flex-col items-center gap-[4px]">
       <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "26px", color: nameColor, fontWeight: 400, letterSpacing: "0.18em", lineHeight: 1, textTransform: "uppercase" as const }}>

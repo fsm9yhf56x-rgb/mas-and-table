@@ -66,21 +66,21 @@ export default async function BlogPage() {
 
         {/* ── HEADER ── */}
         <section className="pt-[73px] border-b border-[#2C2C2C]/10">
-          <div className="max-w-7xl mx-auto px-8 md:px-16 py-14 md:py-20">
-            <div className="flex items-center gap-4 mb-10">
-              <span className="block w-8 h-px bg-[#6B7C5C]" />
-              <p className="font-sans text-[13px] tracking-[0.5em] uppercase text-[#6B7C5C]">
+          <div className="max-w-7xl mx-auto px-6 sm:px-16 py-10 sm:py-20">
+            <div className="flex items-center gap-4 mb-8 sm:mb-10">
+              <span className="block w-6 sm:w-8 h-px bg-[#6B7C5C]" />
+              <p className="font-sans text-[11px] sm:text-[13px] tracking-[0.5em] uppercase text-[#6B7C5C]">
                 Stories · Seasons · Secrets
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
-              <div className="md:col-span-7">
-                <h1 className="font-serif text-[clamp(3rem,7vw,6rem)] text-[#2C2C2C] leading-[1.0] tracking-tight">
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-6 items-end">
+              <div className="sm:col-span-7">
+                <h1 className="font-serif text-[clamp(2.8rem,10vw,6rem)] text-[#2C2C2C] leading-[1.0] tracking-tight">
                   From Provence
                 </h1>
               </div>
-              <div className="md:col-span-5">
-                <p className="font-sans text-xl text-[#2C2C2C]/70 leading-relaxed" style={{ fontWeight: 300 }}>
+              <div className="sm:col-span-5">
+                <p className="font-sans text-lg sm:text-xl text-[#2C2C2C]/70 leading-relaxed" style={{ fontWeight: 300 }}>
                   Stories, seasons and secrets from the South of France — updated each season.
                 </p>
               </div>
@@ -92,29 +92,33 @@ export default async function BlogPage() {
         {featured && (
           <section className="border-b border-[#2C2C2C]/10">
             <Link href={`/blog/${featured.slug}`} className="group block">
-              <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2">
 
-                <div className="relative min-h-[380px] md:min-h-[560px] overflow-hidden">
+                {/* Photo — plus courte sur mobile */}
+                <div className="relative overflow-hidden sm:min-h-[560px]" style={{ minHeight: "60vw" }}>
                   <Image
                     src={featured.cover_image_url}
                     alt={featured.title}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                    sizes="(max-width: 768px) 100vw, 50vw"
+                    sizes="(max-width: 640px) 100vw, 50vw"
                     priority
                   />
                 </div>
 
-                <div className="flex flex-col justify-center px-8 md:px-16 py-16 md:py-24 border-l border-[#2C2C2C]/10" style={{ backgroundColor: "#F8F4EE" }}>
-                  <div className="flex items-center gap-4 mb-10">
+                <div
+                  className="flex flex-col justify-center px-6 sm:px-16 py-10 sm:py-24 border-t sm:border-t-0 sm:border-l border-[#2C2C2C]/10"
+                  style={{ backgroundColor: "#F8F4EE" }}
+                >
+                  <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-10">
                     <span className="font-sans text-[11px] tracking-[0.5em] uppercase text-[#6B7C5C]">{featured.category}</span>
                     <span className="block w-4 h-px bg-[#2C2C2C]/20" />
                     <span className="font-sans text-[11px] tracking-[0.3em] uppercase text-[#2C2C2C]/35">{featured.read_time} read</span>
                   </div>
-                  <h2 className="font-serif text-[clamp(1.75rem,3.5vw,3rem)] text-[#2C2C2C] leading-[1.1] mb-8 group-hover:text-[#6B7C5C] transition-colors duration-300">
+                  <h2 className="font-serif text-[clamp(1.5rem,5vw,3rem)] text-[#2C2C2C] leading-[1.1] mb-5 sm:mb-8 group-hover:text-[#6B7C5C] transition-colors duration-300">
                     {featured.title}
                   </h2>
-                  <p className="font-sans text-xl text-[#2C2C2C]/55 leading-relaxed mb-10" style={{ fontWeight: 300 }}>
+                  <p className="font-sans text-base sm:text-xl text-[#2C2C2C]/55 leading-relaxed mb-7 sm:mb-10" style={{ fontWeight: 300 }}>
                     {featured.excerpt}
                   </p>
                   <div className="inline-flex items-center gap-3 font-sans text-[12px] tracking-[0.4em] uppercase text-[#6B7C5C] group-hover:text-[#2C2C2C] transition-colors duration-300">
@@ -131,33 +135,34 @@ export default async function BlogPage() {
         {/* ── AUTRES ARTICLES ── */}
         {rest.length > 0 && (
           <section className="bg-[#F8F4EE] border-b border-[#2C2C2C]/10">
-            <div className="max-w-7xl mx-auto px-8 md:px-16 py-16 md:py-24">
+            <div className="max-w-7xl mx-auto px-6 sm:px-16 py-12 sm:py-24">
 
-              <p className="font-sans text-[13px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-16">
+              <p className="font-sans text-[11px] sm:text-[13px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-10 sm:mb-16">
                 More stories
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-16">
+              {/* Mobile : 1 colonne. Desktop : 3 colonnes */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-10 sm:gap-y-16">
                 {rest.map((post) => (
                   <Link key={post.slug} href={`/blog/${post.slug}`} className="group block">
-                    <div className="relative aspect-[16/10] overflow-hidden mb-7">
+                    <div className="relative aspect-[16/10] overflow-hidden mb-5 sm:mb-7">
                       <Image
                         src={post.cover_image_url}
                         alt={post.title}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                        sizes="(max-width: 768px) 100vw, 33vw"
+                        sizes="(max-width: 640px) 100vw, 33vw"
                       />
                     </div>
-                    <div className="flex items-center gap-3 mb-4">
+                    <div className="flex items-center gap-3 mb-3 sm:mb-4">
                       <span className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#6B7C5C]">{post.category}</span>
                       <span className="block w-3 h-px bg-[#2C2C2C]/20" />
                       <span className="font-sans text-[11px] tracking-[0.3em] uppercase text-[#2C2C2C]/35">{post.read_time} read</span>
                     </div>
-                    <h2 className="font-serif text-xl text-[#2C2C2C] group-hover:text-[#6B7C5C] transition-colors duration-300 leading-snug mb-4">
+                    <h2 className="font-serif text-lg sm:text-xl text-[#2C2C2C] group-hover:text-[#6B7C5C] transition-colors duration-300 leading-snug mb-3 sm:mb-4">
                       {post.title}
                     </h2>
-                    <p className="font-sans text-base text-[#2C2C2C]/50 leading-relaxed mb-6" style={{ fontWeight: 300 }}>
+                    <p className="font-sans text-sm sm:text-base text-[#2C2C2C]/50 leading-relaxed mb-4 sm:mb-6" style={{ fontWeight: 300 }}>
                       {post.excerpt}
                     </p>
                     <div className="inline-flex items-center gap-2 font-sans text-[11px] tracking-[0.4em] uppercase text-[#6B7C5C] group-hover:text-[#2C2C2C] transition-colors duration-300">
@@ -174,21 +179,22 @@ export default async function BlogPage() {
 
         {/* ── CTA EXPERIENCES ── */}
         <section className="border-b border-[#2C2C2C]/10">
-          <div className="max-w-7xl mx-auto px-8 md:px-16 py-16 md:py-24">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-end">
-              <div className="md:col-span-7">
-                <p className="font-sans text-[13px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-6">Ready to go further?</p>
-                <h2 className="font-serif text-[clamp(2rem,4.5vw,3.5rem)] text-[#2C2C2C] leading-tight">
+          <div className="max-w-7xl mx-auto px-6 sm:px-16 py-12 sm:py-24">
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-8 sm:gap-10 items-end">
+              <div className="sm:col-span-7">
+                <p className="font-sans text-[11px] sm:text-[13px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-5 sm:mb-6">Ready to go further?</p>
+                <h2 className="font-serif text-[clamp(1.8rem,6vw,3.5rem)] text-[#2C2C2C] leading-tight">
                   The story is one thing.<br /><em>The experience is another.</em>
                 </h2>
               </div>
-              <div className="md:col-span-5 space-y-8">
-                <p className="font-sans text-xl text-[#2C2C2C]/70 leading-relaxed" style={{ fontWeight: 300 }}>
+              <div className="sm:col-span-5 space-y-6 sm:space-y-8">
+                <p className="font-sans text-lg sm:text-xl text-[#2C2C2C]/70 leading-relaxed" style={{ fontWeight: 300 }}>
                   Every article on this blog began as a day in the field — searching for the experiences worth your time.
                 </p>
                 <Link
                   href="/experiences"
-                  className="group relative inline-flex items-center gap-4 border border-[#2C2C2C]/30 text-[#2C2C2C] font-sans text-[12px] tracking-[0.4em] uppercase px-10 py-5 overflow-hidden hover:border-[#2C2C2C] transition-colors duration-500"
+                  className="group relative inline-flex w-full sm:w-auto items-center justify-center sm:justify-start gap-4 border border-[#2C2C2C]/30 text-[#2C2C2C] font-sans text-[12px] tracking-[0.4em] uppercase overflow-hidden hover:border-[#2C2C2C] transition-colors duration-500"
+                  style={{ padding: "18px 32px", minHeight: "56px" }}
                 >
                   <span className="absolute inset-0 bg-[#6B7C5C] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
                   <span className="relative z-10 group-hover:text-[#F5F0E8] transition-colors duration-300">Explore experiences</span>
