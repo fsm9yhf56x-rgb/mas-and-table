@@ -14,6 +14,7 @@ export default function Navbar() {
   const [user, setUser]               = useState<any>(null);
   const [firstName, setFirstName]     = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const headerRef   = useRef<HTMLElement>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -32,6 +33,17 @@ export default function Navbar() {
     setAuthOpen(false);
     router.push("/");
   }
+
+  // Expose la vraie hauteur navbar → CSS var --navbar-h (utilisée par les sticky bars)
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const update = () => document.documentElement.style.setProperty("--navbar-h", `${el.offsetHeight}px`);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -85,6 +97,7 @@ export default function Navbar() {
   return (
     <>
       <header
+        ref={headerRef}
         className="fixed top-0 left-0 right-0 z-50"
         style={{
           backgroundColor: menuOpen ? DARK : BEIGE,
@@ -172,14 +185,13 @@ export default function Navbar() {
             <div
               className="absolute top-full left-1/2 mt-4"
               style={{
-                transform: "translateX(-50%)",
+                transform: dropdownOpen ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(-8px)",
                 backgroundColor: BEIGE,
                 boxShadow: "0 16px 48px rgba(44,44,44,0.12), 0 1px 0 rgba(44,44,44,0.08)",
                 border: "1px solid rgba(44,44,44,0.08)",
                 minWidth: "280px",
                 opacity: dropdownOpen ? 1 : 0,
                 pointerEvents: dropdownOpen ? "auto" : "none",
-                transform: dropdownOpen ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(-8px)",
                 transition: "opacity 0.25s ease, transform 0.25s ease",
               }}
             >
@@ -311,7 +323,7 @@ export default function Navbar() {
       </div>
 
       {/* Spacer */}
-      <div className="hidden sm:block" style={{ height: "140px" }} />
+      <div className="hidden sm:block" style={{ height: "var(--navbar-h, 168px)" }} />
       <div className="sm:hidden" style={{ height: "64px" }} />
     </>
   );
