@@ -46,7 +46,7 @@ export default function Footer() {
             </p>
             <div className="flex flex-col gap-4">
               {[
-                { href: "/blog",              label: "From Provence" },
+                { href: "/blog",              label: "Stories from Provence" },
                 { href: "/partners",          label: "List your experience" },
                 { href: "/terms",             label: "Terms & Conditions" },
                 { href: "/privacy",           label: "Privacy Policy" },
