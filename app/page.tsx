@@ -29,77 +29,103 @@ export default async function HomePage() {
       <main className="bg-[#F5F0E8]">
 
         {/* ─────────────────────────────────────────
-            HERO
+            HERO — full width bord à bord
         ───────────────────────────────────────── */}
-        <section className="pt-[73px] border-b border-[#2C2C2C]/10">
+        <section className="border-b border-[#2C2C2C]/10 overflow-hidden">
 
-          {/* Photo mobile — visible uniquement sur téléphone, plein largeur */}
-          <div className="sm:hidden relative w-full overflow-hidden" style={{ height: "56vw", minHeight: "200px" }}>
-            <Image
-              src="https://images.unsplash.com/photo-1592651563903-4b13924f3c06?q=80&w=800&auto=format"
-              alt="Vignes en Provence, Luberon"
-              fill
-              className="object-cover"
-              priority
-              sizes="100vw"
-            />
-            <div className="absolute bottom-3 right-4">
-              <p className="font-sans text-[11px] tracking-[0.25em] uppercase" style={{ color: "rgba(253,250,245,0.7)" }}>Luberon</p>
+          {/* ── Desktop : grille 50/50 pleine largeur ── */}
+          <div className="hidden sm:grid grid-cols-2 w-full">
+
+            {/* Colonne gauche — texte avec padding interne */}
+            <div className="flex flex-col justify-between pl-16 xl:pl-24 pr-12 xl:pr-16 pt-16 pb-16">
+              <div className="flex items-center gap-4 mb-10">
+                <span className="block w-8 h-px bg-[#6B7C5C]" />
+                <p className="font-sans text-[12px] tracking-[0.5em] uppercase text-[#6B7C5C]">
+                  Provence · South of France · Est. 2025
+                </p>
+              </div>
+
+              <h1 className="font-serif text-[clamp(3.5rem,5.5vw,7rem)] text-[#2C2C2C] leading-[1.0] tracking-tight mb-auto">
+                The Provence<br />
+                few travellers<br />
+                <em>ever find.</em>
+              </h1>
+
+              <div className="border-t border-[#2C2C2C]/10 pt-10 mt-12 flex flex-col gap-6">
+                <p className="font-sans text-xl text-[#2C2C2C]/70 leading-relaxed max-w-md" style={{ fontWeight: 300 }}>
+                  Handpicked domaines, vignerons and hidden tables — for those who travel to truly discover.
+                </p>
+                <div>
+                  <Link
+                    href="/experiences"
+                    className="group relative inline-flex items-center gap-4 border border-[#2C2C2C] text-[#2C2C2C] font-sans text-[12px] tracking-[0.4em] uppercase overflow-hidden hover:text-[#FDFAF5] transition-colors duration-500"
+                    style={{ padding: "18px 32px" }}
+                  >
+                    <span className="absolute inset-0 bg-[#6B7C5C] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                    <span className="relative z-10">Explore</span>
+                    <span className="relative z-10 inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Colonne droite — photo bord à bord, hauteur calée sur le texte */}
+            <div className="relative w-full" style={{ minHeight: "600px" }}>
+              <Image
+                src="https://images.unsplash.com/photo-1592651563903-4b13924f3c06?q=80&w=1400&auto=format"
+                alt="Vignes en Provence, Luberon"
+                fill
+                className="object-cover"
+                priority
+                sizes="50vw"
+              />
+              <div className="absolute bottom-5 right-6">
+                <p className="font-sans text-[13px] tracking-[0.3em] uppercase" style={{ color: "rgba(253,250,245,0.6)" }}>Luberon</p>
+              </div>
             </div>
           </div>
 
-          <div className="max-w-7xl mx-auto px-6 sm:px-16">
-
-            <div className="flex items-center gap-4 pt-10 sm:pt-20 mb-8 sm:mb-12">
-              <span className="block w-6 sm:w-8 h-px bg-[#6B7C5C]" />
-              <p className="font-sans text-[11px] sm:text-[12px] tracking-[0.4em] sm:tracking-[0.5em] uppercase text-[#6B7C5C]">
-                Provence · South of France · Est. 2025
-              </p>
+          {/* ── Mobile ── */}
+          <div className="sm:hidden">
+            {/* Photo mobile plein largeur */}
+            <div className="relative w-full overflow-hidden" style={{ height: "56vw", minHeight: "200px" }}>
+              <Image
+                src="https://images.unsplash.com/photo-1592651563903-4b13924f3c06?q=80&w=800&auto=format"
+                alt="Vignes en Provence, Luberon"
+                fill className="object-cover" priority sizes="100vw"
+              />
+              <div className="absolute bottom-3 right-4">
+                <p className="font-sans text-[11px] tracking-[0.25em] uppercase" style={{ color: "rgba(253,250,245,0.7)" }}>Luberon</p>
+              </div>
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-stretch">
-
-              <div className="sm:col-span-7 flex flex-col justify-between pb-10 sm:pb-16">
-                <h1 className="font-serif text-[clamp(3rem,11vw,7rem)] text-[#2C2C2C] leading-[1.0] tracking-tight mb-8 sm:mb-12">
-                  The Provence<br />
-                  few travellers<br />
-                  <em>ever find.</em>
-                </h1>
-                <div className="border-t border-[#2C2C2C]/10 pt-8 sm:pt-10 flex flex-col gap-6">
-                  <p className="font-sans text-lg sm:text-xl text-[#2C2C2C]/70 leading-relaxed" style={{ fontWeight: 300 }}>
-                    Handpicked domaines, vignerons and hidden tables — for those who travel to truly discover.
-                  </p>
-                  <div>
-                    <Link
-                      href="/experiences"
-                      className="group relative inline-flex items-center gap-4 border border-[#2C2C2C] text-[#2C2C2C] font-sans text-[12px] tracking-[0.4em] uppercase overflow-hidden hover:text-[#FDFAF5] transition-colors duration-500"
-                      style={{ padding: "18px 32px" }}
-                    >
-                      <span className="absolute inset-0 bg-[#6B7C5C] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
-                      <span className="relative z-10">Explore</span>
-                      <span className="relative z-10 inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
-                    </Link>
-                  </div>
-                </div>
+            {/* Texte mobile */}
+            <div className="px-6 pt-10 pb-10">
+              <div className="flex items-center gap-4 mb-8">
+                <span className="block w-6 h-px bg-[#6B7C5C]" />
+                <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#6B7C5C]">
+                  Provence · South of France · Est. 2025
+                </p>
               </div>
-
-              {/* Photo desktop uniquement */}
-              <div className="hidden sm:block sm:col-span-5 relative overflow-hidden" style={{ minHeight: "420px" }}>
-                <Image
-                  src="https://images.unsplash.com/photo-1592651563903-4b13924f3c06?q=80&w=627&auto=format"
-                  alt="Vignes en Provence, Luberon"
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="40vw"
-                />
-                <div className="absolute bottom-4 right-4">
-                  <p className="font-sans text-[14px] tracking-[0.25em] uppercase text-[#FDFAF5]">Luberon</p>
-                </div>
+              <h1 className="font-serif text-[clamp(3rem,11vw,5rem)] text-[#2C2C2C] leading-[1.0] tracking-tight mb-8">
+                The Provence<br />few travellers<br /><em>ever find.</em>
+              </h1>
+              <div className="border-t border-[#2C2C2C]/10 pt-8 flex flex-col gap-6">
+                <p className="font-sans text-lg text-[#2C2C2C]/70 leading-relaxed" style={{ fontWeight: 300 }}>
+                  Handpicked domaines, vignerons and hidden tables — for those who travel to truly discover.
+                </p>
+                <Link
+                  href="/experiences"
+                  className="group relative inline-flex items-center gap-4 border border-[#2C2C2C] text-[#2C2C2C] font-sans text-[12px] tracking-[0.4em] uppercase overflow-hidden hover:text-[#FDFAF5] transition-colors duration-500"
+                  style={{ padding: "18px 32px" }}
+                >
+                  <span className="absolute inset-0 bg-[#6B7C5C] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                  <span className="relative z-10">Explore</span>
+                  <span className="relative z-10 inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </Link>
               </div>
-
             </div>
           </div>
+
         </section>
 
         {/* ─────────────────────────────────────────
@@ -114,32 +140,12 @@ export default async function HomePage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
               {[
-                {
-                  href: "/experiences?category=une_journee",
-                  num: "01", label: "Une Journée", title: "A Table",
-                  hook: "An afternoon among ancient vines, where a fourth-generation vigneron uncorks the secrets of Provence rosé.",
-                  price: "From €150 / person",
-                },
-                {
-                  href: "/experiences?category=un_sejour",
-                  num: "02", label: "Un Séjour", title: "Among the Vines",
-                  hook: "Two days at a private domaine — where the rosé is poured by the hand that grew it and dinner begins at sundown.",
-                  price: "From €800 / person",
-                },
-                {
-                  href: "/experiences?category=une_saison",
-                  num: "03", label: "Une Saison", title: "Lost in Provence",
-                  hook: "A full week. A mas, a market, a table. The Provence that takes years to forget.",
-                  price: "From €2,000 / person",
-                },
+                { href: "/experiences?category=une_journee", num: "01", label: "Une Journée", title: "A Table", hook: "An afternoon among ancient vines, where a fourth-generation vigneron uncorks the secrets of Provence rosé.", price: "From €150 / person" },
+                { href: "/experiences?category=un_sejour",   num: "02", label: "Un Séjour",   title: "Among the Vines", hook: "Two days at a private domaine — where the rosé is poured by the hand that grew it and dinner begins at sundown.", price: "From €800 / person" },
+                { href: "/experiences?category=une_saison",  num: "03", label: "Une Saison",  title: "Lost in Provence", hook: "A full week. A mas, a market, a table. The Provence that takes years to forget.", price: "From €2,000 / person" },
               ].map((cat) => (
-                <Link
-                  key={cat.href}
-                  href={cat.href}
-                  style={{ backgroundColor: "#F5F0E8" }}
-                  className="group flex flex-col justify-between border border-[#2C2C2C]/20 p-8 sm:p-14 hover:border-[#6B7C5C] transition-all duration-400"
-                  // Mobile : hauteur auto. Desktop : min-h-[500px]
-                >
+                <Link key={cat.href} href={cat.href} style={{ backgroundColor: "#F5F0E8" }}
+                  className="group flex flex-col justify-between border border-[#2C2C2C]/20 p-8 sm:p-14 sm:min-h-[500px] hover:border-[#6B7C5C] transition-all duration-400">
                   <div>
                     <div className="flex items-center justify-between mb-8 sm:mb-12">
                       <span className="font-serif text-4xl sm:text-5xl leading-none select-none" style={{ color: "rgba(44,44,44,0.06)" }}>{cat.num}</span>
@@ -148,20 +154,15 @@ export default async function HomePage() {
                     <h3 className="font-serif text-[clamp(2rem,7vw,3.75rem)] text-[#2C2C2C] leading-[1.0] mb-5 sm:mb-8 group-hover:text-[#6B7C5C] transition-colors duration-300">
                       <em>{cat.title}</em>
                     </h3>
-                    <p className="font-sans text-base sm:text-lg text-[#2C2C2C]/50 leading-relaxed" style={{ fontWeight: 300 }}>
-                      {cat.hook}
-                    </p>
+                    <p className="font-sans text-base sm:text-lg text-[#2C2C2C]/50 leading-relaxed" style={{ fontWeight: 300 }}>{cat.hook}</p>
                   </div>
-                  <div className="flex items-center justify-between pt-6 sm:pt-8 mt-6 sm:mt-10 border-t border-[#2C2C2C]/12 group-hover:border-[#6B7C5C]/30 transition-colors duration-300">
-                    <span className="font-sans text-sm sm:text-base text-[#2C2C2C]/40" style={{ fontWeight: 300 }}>{cat.price}</span>
-                    <span className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#2C2C2C]/30 inline-block transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#6B7C5C]">
-                      Discover →
-                    </span>
+                  <div className="flex items-center justify-between gap-4 pt-6 sm:pt-8 mt-6 sm:mt-10 border-t border-[#2C2C2C]/12 group-hover:border-[#6B7C5C]/30 transition-colors duration-300">
+                    <span className="font-sans text-sm sm:text-base text-[#2C2C2C]/40 shrink-0" style={{ fontWeight: 300 }}>{cat.price}</span>
+                    <span className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#2C2C2C]/30 shrink-0 inline-block transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#6B7C5C]">Discover →</span>
                   </div>
                 </Link>
               ))}
             </div>
-
           </div>
         </section>
 
@@ -194,25 +195,20 @@ export default async function HomePage() {
         </section>
 
         {/* ─────────────────────────────────────────
-            FEATURED EXPERIENCES
+            FEATURED
         ───────────────────────────────────────── */}
         {featured.length > 0 && (
           <section className="bg-[#F8F4EE] border-b border-[#2C2C2C]/10">
             <div className="max-w-7xl mx-auto px-6 sm:px-16 py-12 sm:py-24">
-
               <div className="flex items-end justify-between mb-10 sm:mb-14">
                 <div>
                   <p className="font-sans text-[11px] sm:text-[13px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-3 sm:mb-4">This season</p>
-                  <h2 className="font-serif text-[clamp(1.8rem,6vw,3.5rem)] text-[#2C2C2C] leading-tight">
-                    Most sought-after<br />experiences
-                  </h2>
+                  <h2 className="font-serif text-[clamp(1.8rem,6vw,3.5rem)] text-[#2C2C2C] leading-tight">Most sought-after<br />experiences</h2>
                 </div>
                 <Link href="/experiences" className="group hidden sm:inline-flex items-center gap-2 font-sans text-[13px] tracking-[0.4em] uppercase text-[#2C2C2C]/70 hover:text-[#2C2C2C] transition-colors duration-300">
-                  <span>View all</span>
-                  <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
+                  <span>View all</span><span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
                 </Link>
               </div>
-
               <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#2C2C2C]/10">
                 {featured.map((exp) => {
                   const cover = exp.images?.find((img: any) => img.is_cover) ?? exp.images?.[0];
@@ -220,13 +216,7 @@ export default async function HomePage() {
                     <Link key={exp.id} href={`/experiences/${exp.slug}`} className="group block sm:px-10 first:pl-0 last:pr-0 py-8 sm:py-0">
                       {cover && (
                         <div className="relative aspect-[3/2] overflow-hidden mb-5 sm:mb-7">
-                          <Image
-                            src={cover.url}
-                            alt={cover.alt || exp.title}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                            sizes="(max-width: 640px) 100vw, 33vw"
-                          />
+                          <Image src={cover.url} alt={cover.alt || exp.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 640px) 100vw, 33vw" />
                         </div>
                       )}
                       <div className="flex items-center justify-between mb-3 sm:mb-4">
@@ -235,30 +225,19 @@ export default async function HomePage() {
                           {exp.category === "une_journee" ? "Une Journée" : exp.category === "un_sejour" ? "Un Séjour" : "Une Saison"}
                         </p>
                       </div>
-                      <h3 className="font-serif text-xl sm:text-2xl text-[#2C2C2C] group-hover:text-[#6B7C5C] transition-colors duration-300 leading-snug mb-2 sm:mb-3">
-                        {exp.title}
-                      </h3>
-                      <p className="font-sans text-sm sm:text-base text-[#2C2C2C]/40" style={{ fontWeight: 300 }}>
-                        From {formatPrice(exp.price_from)} per person
-                      </p>
+                      <h3 className="font-serif text-xl sm:text-2xl text-[#2C2C2C] group-hover:text-[#6B7C5C] transition-colors duration-300 leading-snug mb-2 sm:mb-3">{exp.title}</h3>
+                      <p className="font-sans text-sm sm:text-base text-[#2C2C2C]/40" style={{ fontWeight: 300 }}>From {formatPrice(exp.price_from)} per person</p>
                     </Link>
                   );
                 })}
               </div>
-
-              {/* View all — mobile uniquement */}
               <div className="sm:hidden mt-10">
-                <Link
-                  href="/experiences"
-                  className="group relative inline-flex w-full items-center justify-center gap-4 border border-[#2C2C2C]/30 text-[#2C2C2C] font-sans text-[12px] tracking-[0.4em] uppercase overflow-hidden hover:border-[#2C2C2C] transition-colors duration-500"
-                  style={{ padding: "18px 32px" }}
-                >
+                <Link href="/experiences" className="group relative inline-flex w-full items-center justify-center gap-4 border border-[#2C2C2C]/30 text-[#2C2C2C] font-sans text-[12px] tracking-[0.4em] uppercase overflow-hidden hover:border-[#2C2C2C] transition-colors duration-500" style={{ padding: "18px 32px" }}>
                   <span className="absolute inset-0 bg-[#6B7C5C] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
                   <span className="relative z-10 group-hover:text-[#F8F4EE] transition-colors duration-300">View all experiences</span>
                   <span className="relative z-10 inline-block group-hover:text-[#F8F4EE] group-hover:translate-x-1 transition-all duration-300">→</span>
                 </Link>
               </div>
-
             </div>
           </section>
         )}
@@ -268,36 +247,22 @@ export default async function HomePage() {
         ───────────────────────────────────────── */}
         <section className="border-b border-[#2C2C2C]/10">
           <div className="grid grid-cols-1 sm:grid-cols-2">
-
-            {/* Photo — plus courte sur mobile */}
             <div className="relative sm:min-h-[560px]" style={{ minHeight: "60vw" }}>
-              <Image
-                src="https://images.unsplash.com/photo-1595435742656-5272d0b3fa82?w=1000&q=85"
-                alt="Lavande, Haute-Provence"
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, 50vw"
-              />
+              <Image src="https://images.unsplash.com/photo-1595435742656-5272d0b3fa82?w=1000&q=85" alt="Lavande, Haute-Provence" fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
               <div className="absolute bottom-4 left-6">
                 <p className="font-sans text-[10px] tracking-[0.4em] uppercase" style={{ color: "rgba(253,250,245,0.4)" }}>Haute-Provence</p>
               </div>
             </div>
-
             <div className="flex flex-col justify-center px-6 sm:px-16 py-12 sm:py-24 border-t sm:border-t-0 sm:border-l border-[#2C2C2C]/10">
-              <span className="font-sans text-[11px] sm:text-[13px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-8 sm:mb-10 block">
-                A word from a traveller
-              </span>
+              <span className="font-sans text-[11px] sm:text-[13px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-8 sm:mb-10 block">A word from a traveller</span>
               <blockquote className="font-serif text-[1.5rem] sm:text-[1.85rem] text-[#2C2C2C] leading-[1.4] mb-8 sm:mb-10">
                 &ldquo;We had been to Provence three times before. We thought we knew it. Then Henri — a man who has tended the same vines for forty years — poured us a glass and said nothing. We spent the afternoon in silence, just tasting, just listening. My husband cried. I did too.&rdquo;
               </blockquote>
               <div className="pt-6 sm:pt-8 border-t border-[#2C2C2C]/10">
                 <p className="font-sans text-sm tracking-[0.3em] uppercase text-[#2C2C2C]">Sarah B.</p>
-                <p className="font-sans text-sm text-[#2C2C2C]/40 mt-1" style={{ fontWeight: 300 }}>
-                  London · A Table experience · Luberon · Spring 2024
-                </p>
+                <p className="font-sans text-sm text-[#2C2C2C]/40 mt-1" style={{ fontWeight: 300 }}>London · A Table experience · Luberon · Spring 2024</p>
               </div>
             </div>
-
           </div>
         </section>
 
@@ -307,11 +272,7 @@ export default async function HomePage() {
         <section className="bg-[#F8F4EE] border-b border-[#2C2C2C]/10">
           <div className="max-w-7xl mx-auto px-6 sm:px-16">
             <div className="grid grid-cols-3 divide-x divide-[#2C2C2C]/10 py-10 sm:py-16">
-              {[
-                { n: "47", l: "Curated\nexperiences" },
-                { n: "12+", l: "Countries\nrepresented" },
-                { n: "100%", l: "English\nguidance" },
-              ].map((item) => (
+              {[{ n: "47", l: "Curated\nexperiences" }, { n: "12+", l: "Countries\nrepresented" }, { n: "100%", l: "English\nguidance" }].map((item) => (
                 <div key={item.l} className="text-center px-3 sm:px-12 py-2">
                   <p className="font-serif text-[clamp(2.2rem,8vw,6rem)] text-[#2C2C2C] mb-1 sm:mb-2 leading-none">{item.n}</p>
                   <p className="font-sans text-[9px] sm:text-[11px] tracking-[0.3em] sm:tracking-[0.4em] uppercase text-[#2C2C2C]/60" style={{ whiteSpace: "pre-line" }}>{item.l}</p>
@@ -326,20 +287,15 @@ export default async function HomePage() {
         ───────────────────────────────────────── */}
         <section className="border-b border-[#2C2C2C]/10">
           <div className="max-w-7xl mx-auto px-6 sm:px-16 py-12 sm:py-24">
-
             <div className="flex items-end justify-between mb-10 sm:mb-14">
               <div>
                 <p className="font-sans text-[11px] sm:text-[13px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-3 sm:mb-4">From Provence</p>
-                <h2 className="font-serif text-[clamp(1.8rem,6vw,3.5rem)] text-[#2C2C2C] leading-tight">
-                  Stories, seasons<br />and secrets
-                </h2>
+                <h2 className="font-serif text-[clamp(1.8rem,6vw,3.5rem)] text-[#2C2C2C] leading-tight">Stories, seasons<br />and secrets</h2>
               </div>
               <Link href="/blog" className="group hidden sm:inline-flex items-center gap-2 font-sans text-[12px] tracking-[0.4em] uppercase text-[#2C2C2C]/65 hover:text-[#2C2C2C] transition-colors duration-300">
-                <span>All stories</span>
-                <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
+                <span>All stories</span><span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
               </Link>
             </div>
-
             <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#2C2C2C]/10">
               {[
                 { tag: "Seasonal Guide", title: "Provence in November — The Secret Season", excerpt: "When the tourists leave and the truffles arrive, Provence reveals its truest face.", slug: "provence-november-secret-season", photo: "1499363536502-87642509e31b" },
@@ -348,13 +304,7 @@ export default async function HomePage() {
               ].map((post) => (
                 <Link key={post.slug} href={`/blog/${post.slug}`} className="group block sm:px-10 first:pl-0 last:pr-0 py-8 sm:py-0">
                   <div className="relative aspect-[16/10] overflow-hidden mb-5 sm:mb-7">
-                    <Image
-                      src={`https://images.unsplash.com/photo-${post.photo}?w=700&q=80`}
-                      alt={post.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                    />
+                    <Image src={`https://images.unsplash.com/photo-${post.photo}?w=700&q=80`} alt={post.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 640px) 100vw, 33vw" />
                   </div>
                   <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#6B7C5C] mb-3 sm:mb-4">{post.tag}</p>
                   <h3 className="font-serif text-lg sm:text-xl text-[#2C2C2C] group-hover:text-[#6B7C5C] transition-colors duration-300 leading-snug mb-2 sm:mb-3">{post.title}</h3>
@@ -362,15 +312,11 @@ export default async function HomePage() {
                 </Link>
               ))}
             </div>
-
-            {/* All stories — mobile uniquement */}
             <div className="sm:hidden mt-10">
               <Link href="/blog" className="group inline-flex items-center gap-3 font-sans text-[12px] tracking-[0.4em] uppercase text-[#6B7C5C]">
-                <span>All stories</span>
-                <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
+                <span>All stories</span><span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
               </Link>
             </div>
-
           </div>
         </section>
 
@@ -379,35 +325,28 @@ export default async function HomePage() {
         ───────────────────────────────────────── */}
         <section className="bg-[#F8F4EE]">
           <div className="max-w-7xl mx-auto px-6 sm:px-16 py-16 sm:py-32">
-
             <div className="flex items-center gap-4 sm:gap-6 mb-12 sm:mb-16">
               <span className="block h-px flex-1 bg-[#2C2C2C]/10" />
               <p className="font-sans text-[11px] sm:text-[13px] tracking-[0.5em] uppercase text-[#2C2C2C]/60">Your next chapter</p>
               <span className="block h-px flex-1 bg-[#2C2C2C]/10" />
             </div>
-
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-8 sm:gap-10 items-end">
               <div className="sm:col-span-8">
-                <h2 className="font-serif text-[clamp(2.8rem,11vw,6rem)] text-[#2C2C2C] leading-[1.0]">
-                  Your Provence<br /><em>is waiting.</em>
-                </h2>
+                <h2 className="font-serif text-[clamp(2.8rem,11vw,6rem)] text-[#2C2C2C] leading-[1.0]">Your Provence<br /><em>is waiting.</em></h2>
               </div>
               <div className="sm:col-span-4 space-y-6 sm:space-y-8">
                 <p className="font-sans text-lg sm:text-xl text-[#2C2C2C]/70 leading-relaxed" style={{ fontWeight: 300 }}>
                   The one that isn&rsquo;t in any guidebook. The one you&rsquo;ll still be talking about in ten years.
                 </p>
-                <Link
-                  href="/experiences"
+                <Link href="/experiences"
                   className="group relative inline-flex w-full sm:w-auto items-center justify-center sm:justify-start gap-4 border border-[#2C2C2C]/30 text-[#2C2C2C] font-sans text-[12px] tracking-[0.4em] uppercase overflow-hidden hover:border-[#2C2C2C] transition-colors duration-500"
-                  style={{ padding: "18px 32px" }}
-                >
+                  style={{ padding: "18px 32px" }}>
                   <span className="absolute inset-0 bg-[#6B7C5C] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
                   <span className="relative z-10 group-hover:text-[#F8F4EE] transition-colors duration-300">Find your experience</span>
                   <span className="relative z-10 inline-block group-hover:text-[#F8F4EE] group-hover:translate-x-1 transition-all duration-300">→</span>
                 </Link>
               </div>
             </div>
-
           </div>
         </section>
 

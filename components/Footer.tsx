@@ -25,12 +25,14 @@ export default function Footer() {
             </p>
             <div className="flex flex-col gap-4">
               {[
-                { href: "/experiences", label: "All Experiences" },
+                { href: "/experiences",                      label: "All Experiences" },
                 { href: "/experiences?category=une_journee", label: "Une Journée — A Table" },
-                { href: "/experiences?category=un_sejour", label: "Un Séjour — Among the Vines" },
-                { href: "/experiences?category=une_saison", label: "Une Saison — Lost in Provence" },
+                { href: "/experiences?category=un_sejour",   label: "Un Séjour — Among the Vines" },
+                { href: "/experiences?category=une_saison",  label: "Une Saison — Lost in Provence" },
               ].map((l) => (
-                <Link key={l.href} href={l.href} className="font-sans text-sm text-[#2C2C2C]/65 hover:text-[#2C2C2C] transition-colors duration-200" style={{ fontWeight: 300 }}>
+                <Link key={l.href} href={l.href}
+                  className="font-sans text-sm text-[#2C2C2C]/65 hover:text-[#2C2C2C] transition-colors duration-200"
+                  style={{ fontWeight: 300 }}>
                   {l.label}
                 </Link>
               ))}
@@ -44,12 +46,15 @@ export default function Footer() {
             </p>
             <div className="flex flex-col gap-4">
               {[
-                { href: "/blog", label: "From Provence" },
-                { href: "/partners", label: "List your experience" },
-                { href: "/terms", label: "Terms & Conditions" },
-                { href: "/privacy", label: "Privacy Policy" },
+                { href: "/blog",              label: "From Provence" },
+                { href: "/partners",          label: "List your experience" },
+                { href: "/terms",             label: "Terms & Conditions" },
+                { href: "/privacy",           label: "Privacy Policy" },
+                { href: "/mentions-legales",  label: "Mentions Légales" },
               ].map((l) => (
-                <Link key={l.href} href={l.href} className="font-sans text-sm text-[#2C2C2C]/65 hover:text-[#2C2C2C] transition-colors duration-200" style={{ fontWeight: 300 }}>
+                <Link key={l.href} href={l.href}
+                  className="font-sans text-sm text-[#2C2C2C]/65 hover:text-[#2C2C2C] transition-colors duration-200"
+                  style={{ fontWeight: 300 }}>
                   {l.label}
                 </Link>
               ))}

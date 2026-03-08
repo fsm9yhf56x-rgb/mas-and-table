@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
@@ -9,24 +10,50 @@ import { supabase } from "@/lib/supabase";
 import { formatPrice } from "@/lib/utils";
 
 const CATEGORIES = [
-  { value: "all", label: "All" },
+  { value: "all",         label: "All" },
   { value: "une_journee", label: "Une Journée" },
-  { value: "un_sejour", label: "Un Séjour" },
-  { value: "une_saison", label: "Une Saison" },
+  { value: "un_sejour",   label: "Un Séjour" },
+  { value: "une_saison",  label: "Une Saison" },
 ];
 
 const TYPES = [
-  { value: "all", label: "All types" },
-  { value: "gastronomy", label: "Gastronomy" },
-  { value: "wine_vines", label: "Wine & Vines" },
+  { value: "all",          label: "All types" },
+  { value: "gastronomy",   label: "Gastronomy" },
+  { value: "wine_vines",   label: "Wine & Vines" },
   { value: "farm_terroir", label: "Farm & Terroir" },
+  { value: "insolite",     label: "Insolite" },
 ];
 
-export default function ExperiencesPage() {
-  const [experiences, setExperiences] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState("all");
+function ExperiencesContent() {
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
+
+  const [experiences, setExperiences]       = useState<any[]>([]);
+  const [loading, setLoading]               = useState(true);
+  const [activeCategory, setActiveCategory] = useState(
+    CATEGORIES.find(c => c.value === categoryParam) ? categoryParam! : "all"
+  );
   const [activeType, setActiveType] = useState("all");
+  const [navHeight, setNavHeight]   = useState(155);
+
+  useEffect(() => {
+    const measure = () => {
+      const nav = document.querySelector("nav") as HTMLElement | null;
+      if (nav) setNavHeight(nav.offsetHeight);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  useEffect(() => {
+    const cat = searchParams.get("category");
+    if (cat && CATEGORIES.find(c => c.value === cat)) {
+      setActiveCategory(cat);
+    } else {
+      setActiveCategory("all");
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     async function load() {
@@ -47,7 +74,7 @@ export default function ExperiencesPage() {
   }, []);
 
   const filtered = experiences.filter((exp) => {
-    const catOk = activeCategory === "all" || exp.category === activeCategory;
+    const catOk  = activeCategory === "all" || exp.category === activeCategory;
     const typeOk = activeType === "all" || exp.experience_type === activeType;
     return catOk && typeOk;
   });
@@ -58,7 +85,7 @@ export default function ExperiencesPage() {
       <main className="min-h-screen bg-[#F5F0E8]">
 
         {/* ── HEADER ── */}
-        <section className="pt-[73px] border-b border-[#2C2C2C]/10">
+        <section className="border-b border-[#2C2C2C]/10">
           <div className="max-w-7xl mx-auto px-6 sm:px-16 py-10 sm:py-20">
             <div className="flex items-center gap-4 mb-8 sm:mb-10">
               <span className="block w-6 sm:w-8 h-px bg-[#6B7C5C]" />
@@ -82,25 +109,26 @@ export default function ExperiencesPage() {
         </section>
 
         {/* ── FILTERS ── */}
-        <div className="sticky top-[73px] z-40 border-b border-[#2C2C2C]/10" style={{ backgroundColor: "#F8F4EE" }}>
-          <div className="max-w-7xl mx-auto px-6 sm:px-16 py-4 sm:py-5">
+        <div
+          className="sticky z-30 border-b border-[#2C2C2C]/10"
+          style={{ top: `${navHeight}px`, backgroundColor: "#F8F4EE" }}
+        >
+          <div className="max-w-7xl mx-auto px-6 sm:px-16" style={{ paddingTop: "16px", paddingBottom: "16px" }}>
+            <div className="flex items-center justify-between">
 
-            {/* Mobile : deux lignes empilées */}
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-
-              {/* Catégories */}
-              <div className="flex gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-hide">
+              {/* Catégories — pills noirs */}
+              <div className="flex items-center gap-2">
                 {CATEGORIES.map((cat) => (
                   <button
                     key={cat.value}
                     onClick={() => setActiveCategory(cat.value)}
-                    className="font-sans text-[11px] tracking-[0.4em] uppercase border transition-colors duration-200 whitespace-nowrap flex-shrink-0"
+                    className="font-sans text-[11px] tracking-[0.4em] uppercase border transition-all duration-200 whitespace-nowrap hover:border-[#2C2C2C]/40 hover:text-[#2C2C2C]"
                     style={{
-                      padding: "10px 14px",
-                      minHeight: "40px",
-                      backgroundColor: activeCategory === cat.value ? "#2C2C2C" : "transparent",
-                      color: activeCategory === cat.value ? "#F8F4EE" : "rgba(44,44,44,0.5)",
-                      borderColor: activeCategory === cat.value ? "#2C2C2C" : "rgba(44,44,44,0.15)",
+                      padding: "9px 16px",
+                      background: activeCategory === cat.value ? "#2C2C2C" : "transparent",
+                      color: activeCategory === cat.value ? "#F5F0E8" : "rgba(44,44,44,0.40)",
+                      borderColor: activeCategory === cat.value ? "#2C2C2C" : "rgba(44,44,44,0.12)",
+                      cursor: "pointer",
                     }}
                   >
                     {cat.label}
@@ -108,19 +136,22 @@ export default function ExperiencesPage() {
                 ))}
               </div>
 
-              {/* Types */}
-              <div className="flex gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-hide">
+              {/* Séparateur */}
+              <span className="w-px h-5 bg-[#2C2C2C]/10 shrink-0 mx-8" />
+
+              {/* Types — pills olive */}
+              <div className="flex items-center gap-2">
                 {TYPES.map((type) => (
                   <button
                     key={type.value}
                     onClick={() => setActiveType(type.value)}
-                    className="font-sans text-[11px] tracking-[0.4em] uppercase border transition-colors duration-200 whitespace-nowrap flex-shrink-0"
+                    className="font-sans text-[11px] tracking-[0.4em] uppercase border transition-all duration-200 whitespace-nowrap hover:border-[#6B7C5C]/40 hover:text-[#6B7C5C]"
                     style={{
-                      padding: "10px 14px",
-                      minHeight: "40px",
-                      backgroundColor: activeType === type.value ? "#6B7C5C" : "transparent",
-                      color: activeType === type.value ? "#F8F4EE" : "rgba(44,44,44,0.5)",
-                      borderColor: activeType === type.value ? "#6B7C5C" : "rgba(44,44,44,0.15)",
+                      padding: "9px 16px",
+                      background: activeType === type.value ? "#6B7C5C" : "transparent",
+                      color: activeType === type.value ? "#F5F0E8" : "rgba(44,44,44,0.40)",
+                      borderColor: activeType === type.value ? "#6B7C5C" : "rgba(44,44,44,0.12)",
+                      cursor: "pointer",
                     }}
                   >
                     {type.label}
@@ -162,7 +193,6 @@ export default function ExperiencesPage() {
                 </button>
               </div>
             ) : (
-              /* Mobile : 2 colonnes. Desktop : 3 colonnes */
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 sm:gap-x-8 gap-y-10 sm:gap-y-16">
                 {filtered.map((exp, i) => {
                   const cover = exp.images?.find((img: any) => img.is_cover) ?? exp.images?.[0];
@@ -231,5 +261,13 @@ export default function ExperiencesPage() {
       </main>
       <Footer />
     </>
+  );
+}
+
+export default function ExperiencesPage() {
+  return (
+    <Suspense>
+      <ExperiencesContent />
+    </Suspense>
   );
 }
