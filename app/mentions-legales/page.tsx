@@ -6,18 +6,18 @@ import Footer from "@/components/Footer";
 
 const SECTIONS = [
   {
-    title: "Éditeur du site",
+    title: "Publisher",
     content: [
       "Mas & Table SASU",
-      "Capital social : 1 €",
-      "SIREN : [À COMPLÉTER]",
-      "Siège social : [À COMPLÉTER], France",
-      "Email : hello@masandtable.com",
-      "Directeur de la publication : [Prénom Nom]",
+      "Share capital: €1000",
+      "SIREN: [TO BE COMPLETED]",
+      "Registered office: 110 Cours Lieutaud, 13006 Marseille, France",
+      "Email: hello@masandtable.com",
+      "Publication director: [First name Last name]",
     ],
   },
   {
-    title: "Hébergeur",
+    title: "Hosting",
     content: [
       "Vercel Inc.",
       "440 N Barranca Ave #4133",
@@ -26,7 +26,7 @@ const SECTIONS = [
     ],
   },
   {
-    title: "Base de données",
+    title: "Database",
     content: [
       "Supabase Inc.",
       "970 Toa Payoh North, Singapore",
@@ -34,40 +34,40 @@ const SECTIONS = [
     ],
   },
   {
-    title: "Paiements",
+    title: "Payments",
     content: [
       "Stripe Payments Europe Ltd.",
       "1 Grand Canal Street Lower, Dublin 2, Ireland",
       "stripe.com",
-      "Prestataire de services de paiement agréé par la Banque Centrale d'Irlande.",
+      "Licensed payment service provider, authorised by the Central Bank of Ireland.",
     ],
   },
   {
-    title: "Propriété intellectuelle",
+    title: "Intellectual property",
     content: [
-      "L'ensemble du contenu de ce site (textes, photographies, design, logo) est la propriété exclusive de Mas & Table SASU ou de ses partenaires et est protégé par les lois françaises et internationales relatives à la propriété intellectuelle.",
-      "Toute reproduction, représentation, modification ou exploitation non autorisée de tout ou partie du site est strictement interdite.",
+      "All content on masandtable.com — including texts, photographs, and design — is the exclusive property of Mas & Table SASU or its partners, and is protected under French and international intellectual property law.",
+      "Any unauthorised reproduction, representation, modification or use of any part of this site is strictly prohibited.",
     ],
   },
   {
-    title: "Données personnelles",
+    title: "Personal data",
     content: [
-      "Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles.",
-      "Pour exercer ces droits, contactez-nous à hello@masandtable.com.",
-      "Vous pouvez également introduire une réclamation auprès de la CNIL (cnil.fr).",
+      "In accordance with the General Data Protection Regulation (GDPR) and the French Data Protection Act, you have the right to access, rectify and delete your personal data at any time.",
+      "To exercise these rights, contact us at hello@masandtable.com.",
+      "You may also lodge a complaint with the CNIL (cnil.fr).",
     ],
   },
   {
     title: "Cookies",
     content: [
-      "Ce site utilise des cookies strictement nécessaires à son fonctionnement (authentification, session). Aucun cookie publicitaire n'est déposé sans votre consentement préalable.",
-      "Pour en savoir plus, consultez notre Politique de Confidentialité.",
+      "This site uses cookies strictly necessary for its operation (authentication, session management). No advertising cookies are placed without your prior consent.",
+      "For more information, please read our Privacy Policy.",
     ],
   },
   {
-    title: "Droit applicable",
+    title: "Governing law",
     content: [
-      "Le présent site et ses conditions d'utilisation sont régis par le droit français. Tout litige sera soumis aux tribunaux compétents de France.",
+      "This site and its terms of use are governed by French law. Any dispute shall be submitted to the competent courts of France.",
     ],
   },
 ];
@@ -84,14 +84,14 @@ export default function MentionsLegalesPage() {
             <div className="flex items-center gap-4 mb-8">
               <span className="block w-6 sm:w-8 h-px bg-[#6B7C5C]" />
               <p className="font-sans text-[11px] sm:text-[12px] tracking-[0.5em] uppercase text-[#6B7C5C]">
-                Légal
+                Legal
               </p>
             </div>
             <h1 className="font-serif text-[clamp(2.5rem,7vw,4.5rem)] text-[#2C2C2C] leading-[1.05] tracking-tight mb-6">
-              Mentions<br /><em>Légales</em>
+              Legal<br /><em>Notice</em>
             </h1>
             <p className="font-sans text-base text-[#2C2C2C]/50" style={{ fontWeight: 300 }}>
-              Conformément à la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN).
+              In accordance with French Law n° 2004-575 of 21 June 2004 on confidence in the digital economy (LCEN).
             </p>
           </div>
         </section>
