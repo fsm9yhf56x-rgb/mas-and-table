@@ -1,14 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-
-const SEASONS = [
-  { value: "",        label: "Any season" },
-  { value: "spring",  label: "Spring — March to May" },
-  { value: "summer",  label: "Summer — June to August" },
-  { value: "autumn",  label: "Autumn — September to November" },
-];
+import { useState, useEffect, useRef } from "react";
 
 const GUESTS = [
   { value: "",    label: "Any group size" },
@@ -56,9 +49,69 @@ function SelectField({
   );
 }
 
+function DateField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Format "15 March 2025" pour l'affichage
+  const displayValue = value
+    ? new Date(value).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
+    : null;
+
+  // Date min = aujourd'hui
+  const today = new Date().toISOString().split("T")[0];
+
+  return (
+    <div
+      className="flex-1 flex flex-col py-4 px-7 cursor-pointer"
+      style={{ borderRight: "1px solid rgba(44,44,44,0.09)" }}
+      onClick={() => inputRef.current?.showPicker?.()}
+    >
+      <span className="font-sans mb-2 block"
+        style={{ fontSize: "9px", letterSpacing: "0.45em", textTransform: "uppercase", color: "rgba(44,44,44,0.55)", fontWeight: 500 }}>
+        When
+      </span>
+      <div className="relative flex items-center">
+        <span
+          style={{
+            fontFamily: "'Playfair Display', Georgia, serif",
+            fontSize: "15px",
+            fontStyle: "italic",
+            color: value ? "#2C2C2C" : "rgba(44,44,44,0.65)",
+            userSelect: "none",
+          }}
+        >
+          {displayValue ?? "Any date"}
+        </span>
+        {value && (
+          <button
+            onClick={(e) => { e.stopPropagation(); onChange(""); }}
+            className="ml-2"
+            style={{ color: "rgba(44,44,44,0.30)", fontSize: "12px", lineHeight: 1 }}
+          >
+            ×
+          </button>
+        )}
+        <span className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2"
+          style={{ color: "#6B7C5C", fontSize: "10px" }}>↓</span>
+        {/* Input natif caché — sert uniquement à ouvrir le picker */}
+        <input
+          ref={inputRef}
+          type="date"
+          value={value}
+          min={today}
+          onChange={(e) => onChange(e.target.value)}
+          className="absolute inset-0 opacity-0 cursor-pointer"
+          style={{ width: "100%", height: "100%" }}
+          tabIndex={-1}
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function QuickSearch() {
   const router   = useRouter();
-  const [season,   setSeason]   = useState("");
+  const [date,     setDate]     = useState("");
   const [guests,   setGuests]   = useState("");
   const [category, setCategory] = useState("");
   const [visible,  setVisible]  = useState(false);
@@ -72,7 +125,7 @@ export default function QuickSearch() {
   function handleSearch() {
     const params = new URLSearchParams();
     if (category) params.set("category", category);
-    if (season)   params.set("season",   season);
+    if (date)     params.set("date",     date);
     if (guests)   params.set("guests",   guests);
     router.push(`/experiences${params.toString() ? `?${params}` : ""}`);
   }
@@ -103,11 +156,12 @@ export default function QuickSearch() {
             is waiting
           </p>
         </div>
+
         <div className="flex-1 flex items-stretch"
           style={{ backgroundColor: "#FDFAF5", boxShadow: "0 4px 24px rgba(44,44,44,0.07)" }}>
-          <SelectField label="When"      value={season}   onChange={setSeason}   options={SEASONS}     bordered />
-          <SelectField label="How many"  value={guests}   onChange={setGuests}   options={GUESTS}      bordered />
-          <SelectField label="What kind" value={category} onChange={setCategory} options={CATEGORIES}  bordered={false} />
+          <DateField   value={date}     onChange={setDate} />
+          <SelectField label="How many"  value={guests}   onChange={setGuests}   options={GUESTS}     bordered />
+          <SelectField label="What kind" value={category} onChange={setCategory} options={CATEGORIES} bordered={false} />
           <button onClick={handleSearch}
             className="group relative flex items-center gap-4 overflow-hidden shrink-0"
             style={{ backgroundColor: "#6B7C5C", padding: "0 36px", fontFamily: "Inter, sans-serif", fontSize: "10px", letterSpacing: "0.4em", textTransform: "uppercase", color: "#FDFAF5", border: "none", minWidth: "160px", justifyContent: "center", cursor: "pointer" }}>
