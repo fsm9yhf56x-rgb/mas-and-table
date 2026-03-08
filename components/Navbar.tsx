@@ -140,6 +140,12 @@ export default function Navbar() {
                 {authOpen && (
                   <div className="absolute right-0 top-full mt-3 min-w-[180px]"
                     style={{ backgroundColor: BEIGE, boxShadow: "0 8px 32px rgba(44,44,44,0.10)", border: "1px solid rgba(44,44,44,0.08)" }}>
+                    <Link href="/account"
+                      onClick={() => setAuthOpen(false)}
+                      className="w-full text-left px-5 py-4 hover:bg-[#EDE8DF] transition-colors duration-200 block border-b border-[#2C2C2C]/06"
+                      style={{ fontFamily: "Inter, sans-serif", fontSize: "11px", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(44,44,44,0.55)" }}>
+                      My account →
+                    </Link>
                     <button onClick={handleSignOut}
                       className="w-full text-left px-5 py-4 hover:bg-[#EDE8DF] transition-colors duration-200"
                       style={{ fontFamily: "Inter, sans-serif", fontSize: "11px", letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(44,44,44,0.55)" }}>
@@ -300,10 +306,17 @@ export default function Navbar() {
           <div className="pt-8 flex flex-col gap-4"
             style={{ opacity: menuOpen ? 1 : 0, transform: menuOpen ? "translateY(0)" : "translateY(12px)", transition: "opacity 0.4s ease 0.4s, transform 0.4s ease 0.4s" }}>
             {user ? (
-              <button onClick={handleSignOut} className="w-full flex items-center justify-center border"
-                style={{ borderColor: "rgba(107,124,92,0.4)", minHeight: "52px", fontFamily: "Inter, sans-serif", fontSize: "10px", letterSpacing: "0.4em", textTransform: "uppercase", color: OLIVE }}>
-                Sign out
-              </button>
+              <>
+                <Link href="/account" onClick={() => setMenuOpen(false)}
+                  className="flex items-center justify-center border mb-3"
+                  style={{ borderColor: "rgba(107,124,92,0.4)", minHeight: "52px", fontFamily: "Inter, sans-serif", fontSize: "10px", letterSpacing: "0.4em", textTransform: "uppercase", color: OLIVE }}>
+                  My account
+                </Link>
+                <button onClick={handleSignOut} className="w-full flex items-center justify-center border"
+                  style={{ borderColor: "rgba(107,124,92,0.2)", minHeight: "52px", fontFamily: "Inter, sans-serif", fontSize: "10px", letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(245,240,232,0.3)" }}>
+                  Sign out
+                </button>
+              </>
             ) : (
               <>
                 <Link href="/signup" onClick={() => setMenuOpen(false)}
