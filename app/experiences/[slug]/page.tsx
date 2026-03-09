@@ -4,6 +4,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookingBlock from "@/components/BookingBlock";
+import WishlistButton from "@/components/WishlistButton";
 import { supabase } from "@/lib/supabase";
 import { Experience } from "@/types";
 import { formatPrice } from "@/lib/utils";
@@ -138,13 +139,20 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
         <section className="pt-[73px] border-b border-[#2C2C2C]/10">
           <div className="max-w-7xl mx-auto px-6 sm:px-16">
 
-            {/* Breadcrumb */}
-            <div className="flex items-center gap-3 pt-8 sm:pt-10 mb-8 sm:mb-12">
-              <Link href="/experiences" className="font-sans text-[11px] tracking-[0.5em] uppercase text-[#2C2C2C]/40 hover:text-[#6B7C5C] transition-colors">
-                ← Experiences
-              </Link>
-              <span className="block w-4 h-px bg-[#2C2C2C]/20" />
-              <span className="font-sans text-[11px] tracking-[0.5em] uppercase text-[#6B7C5C]">{categoryLabel}</span>
+            {/* Breadcrumb + Wishlist */}
+            <div className="flex items-center justify-between pt-8 sm:pt-10 mb-8 sm:mb-12">
+              <div className="flex items-center gap-3">
+                <Link href="/experiences" className="font-sans text-[11px] tracking-[0.5em] uppercase text-[#2C2C2C]/40 hover:text-[#6B7C5C] transition-colors">
+                  ← Experiences
+                </Link>
+                <span className="block w-4 h-px bg-[#2C2C2C]/20" />
+                <span className="font-sans text-[11px] tracking-[0.5em] uppercase text-[#6B7C5C]">{categoryLabel}</span>
+              </div>
+
+              {/* ♥ Wishlist button — non rendu côté serveur, hydraté côté client */}
+              {experience.id !== "placeholder" && (
+                <WishlistButton experienceId={experience.id} />
+              )}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-end pb-10 sm:pb-14">
@@ -161,7 +169,7 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
                 </p>
               </div>
 
-              {/* Image header — plein largeur mobile, colonne droite desktop */}
+              {/* Image header */}
               <div className="sm:col-span-5 relative overflow-hidden" style={{ height: "56vw", maxHeight: "320px", minHeight: "200px" }}>
                 {cover ? (
                   <img src={cover.url} alt={cover.alt || experience.title} className="w-full h-full object-cover" />
@@ -183,7 +191,7 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
             {/* GAUCHE — storytelling */}
             <div>
 
-              {/* Détails rapides — 2 colonnes mobile, 4 desktop */}
+              {/* Détails rapides */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 pb-10 sm:pb-12 mb-10 sm:mb-12 border-b border-[#2C2C2C]/10">
                 {[
                   { label: "Duration", value: experience.duration },
@@ -249,9 +257,7 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
 
             </div>
 
-            {/* DROITE — booking
-                Desktop : sticky sidebar
-                Mobile  : affiché APRÈS le contenu (order CSS) */}
+            {/* DROITE — booking sticky */}
             <div className="sm:block">
               <div className="sm:sticky sm:top-28">
                 <BookingBlock experience={experience} />
