@@ -23,16 +23,11 @@ export async function generateMetadata(
     if (!data) return {};
     const cover = data.images?.find((img: any) => img.is_cover) ?? data.images?.[0];
     const title = `${data.title} — Provence Experience`;
-    const description = data.tagline ?? `A curated experience in ${data.zone}, Provence. From €${data.price_from} per person.`;
+    const description = data.tagline ?? `A curated experience in ${data.zone}, Provence.`;
     return {
       title,
       description,
-      openGraph: {
-        title,
-        description,
-        url: `https://masandtable.com/experiences/${slug}`,
-        images: cover ? [{ url: cover.url, alt: data.title }] : [],
-      },
+      openGraph: { title, description, images: cover ? [{ url: cover.url, alt: data.title }] : [] },
       alternates: { canonical: `https://masandtable.com/experiences/${slug}` },
     };
   } catch {
@@ -74,8 +69,8 @@ const PLACEHOLDER: Experience = {
   slug: "afternoon-among-ancient-vines",
   title: "An Afternoon Among Ancient Vines",
   tagline: "A fourth-generation vigneron. Forty-year-old rose vines. An afternoon that redefines what Provence tastes like.",
-  description: "You arrive at the domaine just as the morning mist is lifting off the vines. Henri is already there — boots muddy, hands stained with earth, a smile that tells you he has been doing this since before you were born. He does not speak much English. He does not need to.\n\nYou walk the rows together, slow and unhurried, as he tells you — through gesture, through taste, through the way he cups a grape in his palm — what four generations of winemaking actually looks like. This is not a tour. This is a transmission.\n\nIn the shade of an ancient stone cellar, you taste five wines poured directly from the barrel. Henri watches your face as you drink. He is not performing. He is sharing something he loves, and hoping you will love it too. Most people do.\n\nYou leave in the late afternoon with a bottle tucked under your arm and the kind of knowledge that does not come from guidebooks. You will open that bottle at home, months from now, and remember every second of this afternoon.",
-  whats_included: "A walk through the estate oldest vine parcels with Henri. A private tasting of five wines poured directly from the barrel. A curated selection of local charcuterie and cheese. One bottle of your choice to take home. Full English guidance throughout.",
+  description: "You arrive at the domaine just as the morning mist is lifting off the vines.\n\nYou walk the rows together, slow and unhurried. This is not a tour. This is a transmission.\n\nIn the shade of an ancient stone cellar, you taste five wines poured directly from the barrel.\n\nYou leave in the late afternoon with a bottle tucked under your arm and the kind of knowledge that does not come from guidebooks.",
+  whats_included: "A walk through the estate oldest vine parcels with Henri. A private tasting of five wines. One bottle of your choice to take home. Full English guidance throughout.",
   category: "une_journee",
   experience_type: "wine_vines",
   zone: "Luberon, Provence",
@@ -92,7 +87,7 @@ const PLACEHOLDER: Experience = {
     name: "Domaine des Vieux Chenes",
     host_firstname: "Henri",
     host_lastname: "Bonnard",
-    host_bio: "Henri has tended the same vines since 1987. He inherited the domaine from his father, who inherited it from his. He makes wine the way his family always has — slowly, stubbornly, and with absolute devotion.",
+    host_bio: "Henri has tended the same vines since 1987. He makes wine the way his family always has — slowly, stubbornly, and with absolute devotion.",
     email: "henri@domainebonnard.fr",
     phone: "",
     address: "Luberon, Provence",
@@ -127,31 +122,32 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
   const cover = images.find((img) => img.is_cover) ?? images[0];
   const extraImages = images.filter((img) => !img.is_cover).slice(0, 2);
   const partner = experience.partner;
+
   const categoryLabel =
     experience.category === "une_journee" ? "Une Journee"
     : experience.category === "un_sejour" ? "Un Sejour"
     : "Une Saison";
+
+  // Null-safe description split
+  const descriptionParagraphs = (experience.description ?? "").split("\n\n").filter(Boolean);
 
   return (
     <>
       <Navbar />
       <main className="bg-[#F5F0E8]">
 
+        {/* HEADER */}
         <section className="border-b border-[#2C2C2C]/10" style={{ paddingTop: "73px" }}>
           <div className="max-w-7xl mx-auto px-6 sm:px-16">
 
+            {/* Breadcrumb + Wishlist */}
             <div className="flex items-center justify-between pt-8 sm:pt-10 mb-8 sm:mb-12">
               <div className="flex items-center gap-3">
-                <Link
-                  href="/experiences"
-                  className="font-sans text-[11px] tracking-[0.5em] uppercase text-[#2C2C2C]/40 hover:text-[#6B7C5C] transition-colors"
-                >
+                <Link href="/experiences" className="font-sans text-[11px] tracking-[0.5em] uppercase text-[#2C2C2C]/40 hover:text-[#6B7C5C] transition-colors">
                   &larr; Experiences
                 </Link>
                 <span className="block w-4 h-px bg-[#2C2C2C]/20" />
-                <span className="font-sans text-[11px] tracking-[0.5em] uppercase text-[#6B7C5C]">
-                  {categoryLabel}
-                </span>
+                <span className="font-sans text-[11px] tracking-[0.5em] uppercase text-[#6B7C5C]">{categoryLabel}</span>
               </div>
               {experience.id !== "placeholder" && (
                 <WishlistButton experienceId={experience.id} />
@@ -161,31 +157,23 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-end pb-10 sm:pb-14">
               <div className="sm:col-span-7 space-y-4 sm:space-y-6">
                 <p className="font-sans text-[11px] sm:text-[12px] tracking-[0.5em] uppercase text-[#6B7C5C]">
-                  {categoryLabel} &middot; {experience.zone}
+                  {categoryLabel} &middot; {experience.zone ?? ""}
                 </p>
                 <h1 className="font-serif text-[#2C2C2C] leading-[1.05] tracking-tight" style={{ fontSize: "clamp(2.2rem,7vw,4.5rem)" }}>
-                  {experience.title}
+                  {experience.title ?? ""}
                 </h1>
-                <p className="font-sans text-lg sm:text-xl text-[#2C2C2C]/55 leading-relaxed" style={{ fontWeight: 300 }}>
-                  {experience.tagline}
-                </p>
+                {experience.tagline && (
+                  <p className="font-sans text-lg sm:text-xl text-[#2C2C2C]/55 leading-relaxed" style={{ fontWeight: 300 }}>
+                    {experience.tagline}
+                  </p>
+                )}
               </div>
 
-              <div
-                className="sm:col-span-5 relative overflow-hidden"
-                style={{ height: "56vw", maxHeight: "320px", minHeight: "200px" }}
-              >
+              <div className="sm:col-span-5 relative overflow-hidden" style={{ height: "56vw", maxHeight: "320px", minHeight: "200px" }}>
                 {cover ? (
-                  <img
-                    src={cover.url}
-                    alt={cover.alt || experience.title}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={cover.url} alt={cover.alt || experience.title} className="w-full h-full object-cover" />
                 ) : (
-                  <div
-                    className="w-full h-full flex items-center justify-center"
-                    style={{ backgroundColor: "#F8F4EE" }}
-                  >
+                  <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: "#F8F4EE" }}>
                     <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#2C2C2C]/30">No image</p>
                   </div>
                 )}
@@ -194,16 +182,20 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
           </div>
         </section>
 
+        {/* CONTENT */}
         <div className="max-w-7xl mx-auto px-6 sm:px-16 py-10 sm:py-24">
           <div className="grid grid-cols-1 sm:grid-cols-[1fr_380px] gap-10 sm:gap-24">
 
+            {/* LEFT */}
             <div>
+
+              {/* Quick details */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 pb-10 sm:pb-12 mb-10 sm:mb-12 border-b border-[#2C2C2C]/10">
                 {[
-                  { label: "Duration", value: experience.duration },
-                  { label: "Group size", value: `${experience.group_min}–${experience.group_max} guests` },
-                  { label: "Season", value: experience.season || "Year-round" },
-                  { label: "Location", value: experience.zone },
+                  { label: "Duration", value: experience.duration ?? "—" },
+                  { label: "Group size", value: experience.group_min && experience.group_max ? `${experience.group_min}–${experience.group_max} guests` : "—" },
+                  { label: "Season", value: experience.season ?? "Year-round" },
+                  { label: "Location", value: experience.zone ?? "Provence" },
                 ].map((item) => (
                   <div key={item.label}>
                     <p className="font-sans text-[10px] tracking-[0.4em] uppercase text-[#2C2C2C]/35 mb-2">{item.label}</p>
@@ -212,18 +204,18 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
                 ))}
               </div>
 
-              <div className="mb-12 sm:mb-16">
-                {experience.description.split("\n\n").map((para, i) => (
-                  <p
-                    key={i}
-                    className="font-sans text-lg sm:text-xl text-[#2C2C2C]/70 leading-relaxed mb-6 sm:mb-7"
-                    style={{ fontWeight: 300 }}
-                  >
-                    {para}
-                  </p>
-                ))}
-              </div>
+              {/* Storytelling */}
+              {descriptionParagraphs.length > 0 && (
+                <div className="mb-12 sm:mb-16">
+                  {descriptionParagraphs.map((para, i) => (
+                    <p key={i} className="font-sans text-lg sm:text-xl text-[#2C2C2C]/70 leading-relaxed mb-6 sm:mb-7" style={{ fontWeight: 300 }}>
+                      {para}
+                    </p>
+                  ))}
+                </div>
+              )}
 
+              {/* Extra images */}
               {extraImages.length > 0 && (
                 <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-12 sm:mb-16">
                   {extraImages.map((img) => (
@@ -234,6 +226,7 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
                 </div>
               )}
 
+              {/* Whats included */}
               {experience.whats_included && (
                 <div className="border-t border-[#2C2C2C]/10 pt-10 sm:pt-12 mb-12 sm:mb-16">
                   <p className="font-sans text-[12px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-5 sm:mb-6">
@@ -245,23 +238,23 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
                 </div>
               )}
 
+              {/* Host */}
               {partner && (
                 <div className="border-t border-[#2C2C2C]/10 pt-10 sm:pt-12">
                   <p className="font-sans text-[12px] tracking-[0.5em] uppercase text-[#6B7C5C] mb-6 sm:mb-8">Your host</p>
                   <div className="flex gap-5 sm:gap-6 items-start">
-                    <div
-                      className="w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 flex items-center justify-center border border-[#2C2C2C]/15"
-                      style={{ backgroundColor: "#F8F4EE" }}
-                    >
-                      <span className="font-serif text-2xl text-[#2C2C2C]/40">{partner.host_firstname?.[0]}</span>
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 flex items-center justify-center border border-[#2C2C2C]/15" style={{ backgroundColor: "#F8F4EE" }}>
+                      <span className="font-serif text-2xl text-[#2C2C2C]/40">{(partner.host_firstname ?? "?")[0]}</span>
                     </div>
                     <div>
                       <p className="font-serif text-xl sm:text-2xl text-[#2C2C2C] mb-2 sm:mb-3">
-                        {partner.host_firstname} {partner.host_lastname}
+                        {partner.host_firstname ?? ""} {partner.host_lastname ?? ""}
                       </p>
-                      <p className="font-sans text-base text-[#2C2C2C]/60 leading-relaxed mb-3 sm:mb-4" style={{ fontWeight: 300 }}>
-                        {partner.host_bio}
-                      </p>
+                      {partner.host_bio && (
+                        <p className="font-sans text-base text-[#2C2C2C]/60 leading-relaxed mb-3 sm:mb-4" style={{ fontWeight: 300 }}>
+                          {partner.host_bio}
+                        </p>
+                      )}
                       {experience.language_note && (
                         <p className="font-serif text-base italic text-[#2C2C2C]/40">
                           &ldquo;{experience.language_note}&rdquo;
@@ -273,6 +266,7 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
               )}
             </div>
 
+            {/* RIGHT — sticky booking */}
             <div className="sm:block">
               <div className="sm:sticky sm:top-28">
                 <BookingBlock experience={experience} />
@@ -282,6 +276,7 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
           </div>
         </div>
 
+        {/* SIMILAR */}
         {similar.length > 0 && (
           <section style={{ backgroundColor: "#F8F4EE" }} className="border-t border-[#2C2C2C]/10">
             <div className="max-w-7xl mx-auto px-6 sm:px-16 py-12 sm:py-24">
@@ -296,21 +291,17 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
                     <Link key={exp.id} href={`/experiences/${exp.slug}`} className="group block sm:px-10 first:pl-0 last:pr-0 py-8 sm:py-0">
                       {c && (
                         <div className="relative aspect-[3/2] overflow-hidden mb-5 sm:mb-6">
-                          <img
-                            src={c.url}
-                            alt={c.alt || exp.title}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                          />
+                          <img src={c.url} alt={c.alt || exp.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
                         </div>
                       )}
                       <div className="flex items-center justify-between mb-2 sm:mb-3">
-                        <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#2C2C2C]/40">{exp.zone}</p>
+                        <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#2C2C2C]/40">{exp.zone ?? ""}</p>
                         <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#6B7C5C]">
                           {exp.category === "une_journee" ? "Une Journee" : exp.category === "un_sejour" ? "Un Sejour" : "Une Saison"}
                         </p>
                       </div>
                       <h3 className="font-serif text-xl sm:text-2xl text-[#2C2C2C] group-hover:text-[#6B7C5C] transition-colors duration-300 leading-snug mb-2 sm:mb-3">
-                        {exp.title}
+                        {exp.title ?? ""}
                       </h3>
                       <p className="font-sans text-sm sm:text-base text-[#2C2C2C]/40" style={{ fontWeight: 300 }}>
                         From {formatPrice(exp.price_from)} per person
