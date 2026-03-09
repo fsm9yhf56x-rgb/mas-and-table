@@ -173,7 +173,7 @@ export default function Navbar() {
         </div>
 
         {/* ── DESKTOP LIGNE 2 — Experiences ▾ · Stories · | · [Explore] ── */}
-        <div className="hidden sm:flex items-center justify-center gap-10 xl:gap-14" style={{ padding: "14px 48px" }}>
+        <div className="hidden sm:flex items-center justify-center gap-10 xl:gap-14" style={{ padding: "14px 48px", borderBottom: "1px solid rgba(44,44,44,0.10)" }}>
 
           {/* Experiences avec dropdown */}
           <div className="relative" ref={dropdownRef}>
