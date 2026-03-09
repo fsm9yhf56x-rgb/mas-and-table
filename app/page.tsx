@@ -6,6 +6,12 @@ import { supabase } from "@/lib/supabase";
 import { Experience } from "@/types";
 import { formatPrice } from "@/lib/utils";
 
+const FALLBACK_IMAGES = [
+  "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&q=80",
+  "https://images.unsplash.com/photo-1559519529-0936e4058364?w=800&q=80",
+  "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&q=80",
+];
+
 async function getFeaturedExperiences(): Promise<Experience[]> {
   try {
     const { data } = await supabase
@@ -87,7 +93,6 @@ export default async function HomePage() {
 
           {/* ── Mobile ── */}
           <div className="sm:hidden">
-            {/* Photo mobile plein largeur */}
             <div className="relative w-full overflow-hidden" style={{ height: "56vw", minHeight: "200px" }}>
               <Image
                 src="https://images.unsplash.com/photo-1592651563903-4b13924f3c06?q=80&w=800&auto=format"
@@ -98,7 +103,6 @@ export default async function HomePage() {
                 <p className="font-sans text-[11px] tracking-[0.25em] uppercase" style={{ color: "rgba(253,250,245,0.7)" }}>Luberon</p>
               </div>
             </div>
-            {/* Texte mobile */}
             <div className="px-6 pt-10 pb-10">
               <div className="flex items-center gap-4 mb-8">
                 <span className="block w-6 h-px bg-[#6B7C5C]" />
@@ -210,15 +214,22 @@ export default async function HomePage() {
                 </Link>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#2C2C2C]/10">
-                {featured.map((exp) => {
+                {featured.map((exp, index) => {
                   const cover = exp.images?.find((img: any) => img.is_cover) ?? exp.images?.[0];
+                  // Fallback Unsplash si pas d'image en base
+                  const imgSrc = cover?.url ?? FALLBACK_IMAGES[index % FALLBACK_IMAGES.length];
+                  const imgAlt = cover?.alt || exp.title;
                   return (
                     <Link key={exp.id} href={`/experiences/${exp.slug}`} className="group block sm:px-10 first:pl-0 last:pr-0 py-8 sm:py-0">
-                      {cover && (
-                        <div className="relative aspect-[3/2] overflow-hidden mb-5 sm:mb-7">
-                          <Image src={cover.url} alt={cover.alt || exp.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 640px) 100vw, 33vw" />
-                        </div>
-                      )}
+                      <div className="relative aspect-[3/2] overflow-hidden mb-5 sm:mb-7">
+                        <Image
+                          src={imgSrc}
+                          alt={imgAlt}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                          sizes="(max-width: 640px) 100vw, 33vw"
+                        />
+                      </div>
                       <div className="flex items-center justify-between mb-3 sm:mb-4">
                         <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#2C2C2C]/40">{exp.zone}</p>
                         <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[#6B7C5C]">
